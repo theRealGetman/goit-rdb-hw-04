@@ -1,0 +1,25 @@
+USE hw_03;
+
+SELECT orders.id order_id from orders;
+
+SELECT
+    o.id AS order_id,
+    cu.name AS customer_name,
+    e.first_name AS employee_first_name,
+    e.last_name AS employee_last_name,
+    o.date AS order_date,
+    sh.name AS shipper_name,
+    p.name AS product_name,
+    c.name AS category_name,
+    s.name AS supplier_name,
+    od.quantity AS quantity,
+    p.price AS unit_price,
+    (od.quantity * p.price) AS total_price
+FROM order_details od
+INNER JOIN orders o ON od.order_id = o.id
+INNER JOIN products p ON od.product_id = p.id
+INNER JOIN categories c ON p.category_id = c.id
+INNER JOIN suppliers s ON p.supplier_id = s.id
+INNER JOIN employees e ON o.employee_id = e.employee_id
+INNER JOIN customers cu ON o.customer_id = cu.id
+INNER JOIN shippers sh ON o.shipper_id = sh.id;
